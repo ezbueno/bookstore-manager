@@ -9,6 +9,7 @@ import com.buenoezandro.bookstoremanager.dtos.BookDTO;
 import com.buenoezandro.bookstoremanager.dtos.MessageResponseDTO;
 import com.buenoezandro.bookstoremanager.entities.Book;
 import com.buenoezandro.bookstoremanager.exceptions.IntegrityViolationException;
+import com.buenoezandro.bookstoremanager.exceptions.ObjectNotFoundException;
 import com.buenoezandro.bookstoremanager.mapper.BookMapper;
 import com.buenoezandro.bookstoremanager.repositories.BookRepository;
 import com.buenoezandro.bookstoremanager.util.MessageUtils;
@@ -18,20 +19,36 @@ public class BookService {
 
 	@Autowired
 	private BookRepository bookRepository;
-	
-	private final BookMapper bookMapper = BookMapper.INSTANCE;
+
+	private static final BookMapper bookMapper = BookMapper.INSTANCE;
 
 	public MessageResponseDTO create(BookDTO bookDTO) {
-		Book bookToSave = bookMapper.toModel(bookDTO);
-		
+		var bookToSave = bookMapper.toModel(bookDTO);
+
 		Optional<Book> findAuthorName = this.bookRepository.findByName(bookToSave.getAuthor().getName());
-		
+
 		if (findAuthorName.isPresent()) {
 			throw new IntegrityViolationException(MessageUtils.NAME_ALREADY_EXISTS);
 		}
-		
-		Book savedBook = this.bookRepository.save(bookToSave);
+
+		var savedBook = this.bookRepository.save(bookToSave);
 		return MessageResponseDTO.builder().message(MessageUtils.CREATED + savedBook.getId()).build();
+	}
+
+	public BookDTO findById(Long id) {
+		var book = this.findBookById(id);
+		return bookMapper.toDTO(book);
+	}
+
+	private Book findBookById(Long id) {
+		var optionalBook = this.bookRepository.findById(id);
+
+		if (optionalBook.isPresent()) {
+			return optionalBook.get();
+		}
+
+		throw new ObjectNotFoundException(MessageUtils.OBJECT_NOT_FOUND + id);
+
 	}
 
 }

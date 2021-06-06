@@ -23,7 +23,7 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		List<ErrorObject> errors = getErrors(ex);
-		ErrorResponse errorResponse = getErrorResponse(ex, status, errors);
+		var errorResponse = getErrorResponse(ex, status, errors);
 		return new ResponseEntity<>(errorResponse, status);
 	}
 
@@ -40,11 +40,17 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 
 	@ExceptionHandler(IntegrityViolationException.class)
-	public ResponseEntity<StandardError> nameAlreadyExists(IntegrityViolationException e,
-			ServletRequest request) {
-		StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
+	public ResponseEntity<StandardError> nameAlreadyExists(IntegrityViolationException e, ServletRequest request) {
+		var error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
 				MessageUtils.NAME_ALREADY_EXISTS);
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+	}
+
+	@ExceptionHandler(ObjectNotFoundException.class)
+	public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, ServletRequest request) {
+		var error = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(),
+				MessageUtils.OBJECT_NOT_FOUND);
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
 	}
 
 }
