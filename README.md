@@ -14,5 +14,5 @@
 * Buscar todos os livros cadastrados
 * Buscar determinado livro por ID
 
-## Link
-* (http://localhost:8080/api/v1/books)
+## Link:
+* http://localhost:8080/api/v1/books
