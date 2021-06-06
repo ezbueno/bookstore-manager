@@ -9,7 +9,7 @@ import com.buenoezandro.bookstoremanager.dtos.BookDTO;
 import com.buenoezandro.bookstoremanager.dtos.MessageResponseDTO;
 import com.buenoezandro.bookstoremanager.entities.Book;
 import com.buenoezandro.bookstoremanager.exceptions.IntegrityViolationException;
-import com.buenoezandro.bookstoremanager.exceptions.ObjectNotFoundException;
+import com.buenoezandro.bookstoremanager.exceptions.BookNotFoundException;
 import com.buenoezandro.bookstoremanager.mapper.BookMapper;
 import com.buenoezandro.bookstoremanager.repositories.BookRepository;
 import com.buenoezandro.bookstoremanager.util.MessageUtils;
@@ -47,7 +47,7 @@ public class BookService {
 			return optionalBook.get();
 		}
 
-		throw new ObjectNotFoundException(MessageUtils.OBJECT_NOT_FOUND + id);
+		throw new BookNotFoundException(MessageUtils.OBJECT_NOT_FOUND + id);
 
 	}
 

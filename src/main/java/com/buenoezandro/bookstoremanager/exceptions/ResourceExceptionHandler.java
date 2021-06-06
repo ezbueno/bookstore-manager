@@ -46,8 +46,8 @@ public class ResourceExceptionHandler extends ResponseEntityExceptionHandler {
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
 	}
 
-	@ExceptionHandler(ObjectNotFoundException.class)
-	public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException e, ServletRequest request) {
+	@ExceptionHandler(BookNotFoundException.class)
+	public ResponseEntity<StandardError> objectNotFound(BookNotFoundException e, ServletRequest request) {
 		var error = new StandardError(System.currentTimeMillis(), HttpStatus.NOT_FOUND.value(),
 				MessageUtils.OBJECT_NOT_FOUND);
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
