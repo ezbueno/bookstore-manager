@@ -3,6 +3,7 @@ package bueno.ezandro.bookstoremanager.service;
 import static bueno.ezandro.bookstoremanager.utils.BookUtils.createFakeBook;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.util.Optional;
@@ -45,7 +46,7 @@ class BookServiceTest {
 	void whenGivenUnexistingIdThenNotFindThrowAnException() {
 		var invalidId = 10L;
 
-		when(bookRepository.findById(invalidId)).thenReturn(Optional.of(new Book()));
+		when(bookRepository.findById(invalidId)).thenReturn(Optional.ofNullable(any(Book.class)));
 
 		assertThrows(BookNotFoundException.class, () -> bookService.findById(invalidId));
 	}
