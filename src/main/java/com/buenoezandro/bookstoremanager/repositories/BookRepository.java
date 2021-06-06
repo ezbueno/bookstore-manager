@@ -13,5 +13,6 @@ import com.buenoezandro.bookstoremanager.entities.Book;
 public interface BookRepository extends JpaRepository<Book, Long> {
 
 	@Query("SELECT book FROM Book book WHERE book.author.name = :name")
-	Optional<Book> findByName(@Param(value = "name") String name);
+	Optional<Book> findAuthorByName(@Param(value = "name") String name);
+
 }

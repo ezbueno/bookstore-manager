@@ -1,5 +1,7 @@
 package com.buenoezandro.bookstoremanager.mapper;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -12,5 +14,6 @@ public interface BookMapper {
 	BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
 	Book toModel(BookDTO bookDTO);
 	BookDTO toDTO(Book book);
+	List<BookDTO> toDTO(List<Book> books);
 	
 }

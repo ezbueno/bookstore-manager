@@ -1,5 +1,7 @@
 package com.buenoezandro.bookstoremanager.controllers;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +26,14 @@ public class BookController {
 	@Autowired
 	private BookService bookService;
 	
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
 	public BookDTO findById(@PathVariable Long id) {
 		return this.bookService.findById(id);
+	}
+	
+	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<BookDTO> findAll() {
+		return this.bookService.findAll();
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
